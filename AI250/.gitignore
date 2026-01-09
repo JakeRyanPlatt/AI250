@@ -1,0 +1,10 @@
+# Python venv
+.venv/
+
+# Local env vars (contains secrets)
+.env
+
+# Editor/OS junk (optional but good)
+__pycache__/
+*.pyc
+.DS_Store
