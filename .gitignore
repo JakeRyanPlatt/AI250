@@ -26,3 +26,4 @@ Thumbs.db
 # Project-specific
 *.pdf
 quiz_output.txt
+.env
