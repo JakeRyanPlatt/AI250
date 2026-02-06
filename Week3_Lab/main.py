@@ -6,14 +6,15 @@ import PyPDF2
 
 # Load HF_TOKEN from .env in this folder
 load_dotenv()
+
 hf_token = os.getenv("HF_TOKEN")
 if not hf_token:
     raise RuntimeError("HF_TOKEN is not set. Add it to your .env file.")
 
-# Hugging Face Inference API configuration
-MODEL_ID = "meta-llama/Llama-3.2-3B-Instruct"  # change if needed
-API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
+MODEL_ID = os.getenv("HF_MODEL", "facebook/bart-large-cnn")  
+API_URL = f"https://router.huggingface.co/hf-inference/models/{MODEL_ID}"
 HEADERS = {"Authorization": f"Bearer {hf_token}"}
+
 
 
 def extract_text_from_pdf(pdf_path):
@@ -61,17 +62,23 @@ Generate the questions now:
         "inputs": prompt,
         "parameters": {
             "max_new_tokens": 800,
-            "temperature": 0.7,
+            "temperature":.7,
         },
     }
 
     try:
         resp = requests.post(API_URL, headers=HEADERS, json=payload, timeout=120)
         resp.raise_for_status()
-        data = resp.json()
-        # Typical HF Inference output: [{"generated_text": "..."}]
-        if isinstance(data, list) and data and "generated_text" in data[0]:
-            return data[0]["generated_text"]
+ = resp.json()
+        # Handle common HF formats
+        if isinstance(data, list) and data:
+            first = data[0]
+            if isinstance(first, dict):
+                if "generated_text" in first:
+                    return first["generated_text"]
+                if "summary_text" in first:
+                    return first["summary_text"]
+            return str(first)
         return str(data)
     except Exception:
         print("Error generating questions (full traceback):")
