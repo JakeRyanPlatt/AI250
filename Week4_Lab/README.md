@@ -3,7 +3,7 @@
 This project is a small command-line tool that sends a Python file to a local
 Ollama model and returns:
 
-- A plain-English explanation of what the code does
+- An English explanation of what the code does
 - Suggested improvements (bugs, style, performance, readability)
 
 You can choose between two local models (example: `qwen2.5` and `llama3.2`) via a
@@ -22,7 +22,7 @@ command-line argument.
 
 ### 1. Install and start Ollama
 
-1. Install Ollama from the official website.
+1. Install Ollama from the official website. <https://ollama.com/>
 2. Start the Ollama server (it usually starts automatically):
 
    ```bash
