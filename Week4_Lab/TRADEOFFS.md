@@ -1,21 +1,20 @@
 # Trade-offs using Cloud Hosted AI API vs Local AI (Ollama)
 
+# 1. Performance and Latency
 ---
-
-1. Performance and Latency
 
 ## Cloud
 
 - Often faster per request on high end GPU's/ Optimized infrastructure
 - Network latency and rate limits introduce delays and throttling
--
 
 ## Local
 
 - No network latency once the model is loaded
 - Throughput depended on machine's CPU/GPU/RAM
 
-1. Cost
+# 2. Cost
+---
 
 ## Cloud
 
@@ -28,7 +27,8 @@
 - Requires sufficient GPU/CPU/RAM and power
 - Model downloads use disk space and bandwidth
 
-1. Data Privacy & Compliance
+# 3. Data Privacy & Compliance
+---
 
 ## Cloud
 
@@ -40,7 +40,8 @@
 - Data stays on your local area network
 - Easier to meet strict privacy/compliance regulations
 
-1. Flexibility and Control
+# 4. Flexibility and Control
+---
 
 ## Cloud
 
@@ -52,7 +53,8 @@
 - Full control over pulled models
 - Offline workflows
 
-1. Reliability and Operations
+# 5. Reliability and Operations
+---
 
 ## Cloud
 
@@ -64,7 +66,8 @@
 - Works offline independent on internet or vendor uptime
 - Responsibility of scaling, uptime, patching, and security upgrades on Admin
 
-1. Ease of Setup and Maintenance
+# 6. Ease of Setup and Maintenance
+---
 
 ## Cloud
 
