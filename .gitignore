@@ -27,3 +27,7 @@ Thumbs.db
 *.pdf
 quiz_output.txt
 .env
+*.png
+seg_test
+seg_train
+seg_pred
