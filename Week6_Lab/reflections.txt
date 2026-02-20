@@ -1,0 +1,6 @@
+For reflection.txt (150–250 words), use this structure (write in your own words):
+
+Sentence 1–3: Which configuration performed best and its key hyperparameters.
+Sentence 4–7: Patterns you saw (e.g., more epochs helped until overfitting; higher dropout improved validation; larger filters increased train acc but not always test acc).
+Sentence 8–9: Any surprises (e.g., lower learning rate needing more epochs, or big model overfitting quickly).
+Sentence 10–12: What you would try next (different batch sizes, early stopping, more epochs with smaller lr, etc.).
