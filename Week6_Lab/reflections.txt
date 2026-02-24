@@ -1,6 +1,7 @@
-For reflection.txt (150–250 words), use this structure (write in your own words):
+I decicded to test several configurations in order to determine what is the best combination of hyperparameters for the dataset. Configuration 8 delivered the best overall results, achieving a test accuracy of 86.33% with a test loss of 0.4095, using filters of (64,128,256), dropout of 0.5, 60 epochs, a batch size of 32, and a learning rate of 0.001. Its train and validation accuracies were closely aligned at 85.62% and 85.41% respectively, suggesting a well-generalized model with minimal overfitting. The hyperparameter combination of moderate dropout and extended training appeared to strike the right balance between capacity and regularization.
 
-Sentence 1–3: Which configuration performed best and its key hyperparameters.
-Sentence 4–7: Patterns you saw (e.g., more epochs helped until overfitting; higher dropout improved validation; larger filters increased train acc but not always test acc).
-Sentence 8–9: Any surprises (e.g., lower learning rate needing more epochs, or big model overfitting quickly).
-Sentence 10–12: What you would try next (different batch sizes, early stopping, more epochs with smaller lr, etc.).
+Across all configurations, increasing the number of epochs generally improved performance up to a point, after which signs of overfitting emerged in some runs. Higher dropout values (0.7) tended to improve validation accuracy relative to training accuracy, which is expected since dropout acts as a regularizer. Larger filter sizes in the convolutional layers, such as (64,128,256), consistently pushed training accuracy higher, but this did not always translate proportionally to test accuracy. Configurations 6 and 7 flagged as errors, likely due to instability or memory issues at larger batch sizes combined with high dropout.
+
+Somewhat surprisingly, config 8 with only 0.5 dropout outperformed several configs using 0.7 dropout despite running more epochs, suggesting that aggressive dropout can limit a model's ability to learn effectively even with extended training time.
+
+Going forward, I would experiment with early stopping to automatically halt training when validation loss plateaus, which could reduce overfitting risk while saving compute time. Trying a learning rate scheduler or reducing lr to 0.0005 after a certain epoch could also help refine convergence. Additionally, testing batch sizes of 16 alongside config 8's architecture might yield further gains in generalization.
