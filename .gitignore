@@ -33,3 +33,5 @@ seg_train
 seg_pred
 Week6_Lab/spambase.csv
 Week6_Lab/set_train
+*.h5
+Week6_Lab/my_best_env_classifier.h5

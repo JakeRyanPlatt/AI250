@@ -16,6 +16,8 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import classification_report, confusion_matrix
+from tensorflow.keras.optimizers import Adam
+import time
 import seaborn as sns
 
 # Set random seeds for reproducibility
@@ -99,11 +101,14 @@ print("Output Layer: Dense(6) + Softmax")
 print("  → Predicts probabilities for 6 categories")
 print()
 
-# Image parameters
+# Hyperparameters 
 IMG_HEIGHT = 150
 IMG_WIDTH = 150
 BATCH_SIZE = 32
-EPOCHS = 2   # Reduced for demo (increase to 20-30 for better accuracy)
+EPOCHS = 50   # Reduced for demo, increase for accuracy
+LEARNING_RATE = 0.001
+FILTERS = (64,128,256)
+DROPOUT_RATE = 0.5
 
 # Build the CNN model
 def create_cnn_model():
@@ -115,21 +120,21 @@ def create_cnn_model():
         layers.Input(shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
         
         # First convolutional block
-        layers.Conv2D(32, (3, 3), activation='relu'),
+        layers.Conv2D(FILTERS[0], (3, 3), activation='relu'),
         layers.MaxPooling2D((2, 2)),
         
         # Second convolutional block
-        layers.Conv2D(64, (3, 3), activation='relu'),
+        layers.Conv2D(FILTERS[1], (3, 3), activation='relu'),
         layers.MaxPooling2D((2, 2)),
         
         # Third convolutional block
-        layers.Conv2D(128, (3, 3), activation='relu'),
+        layers.Conv2D(FILTERS[2], (3, 3), activation='relu'),
         layers.MaxPooling2D((2, 2)),
         
         # Flatten and dense layers
         layers.Flatten(),
         layers.Dense(128, activation='relu'),
-        layers.Dropout(0.5),  # Prevent overfitting
+        layers.Dropout(DROPOUT_RATE),  # Prevent overfitting
         
         # Output layer (6 categories)
         layers.Dense(6, activation='softmax')
@@ -156,7 +161,7 @@ print("Metrics: Accuracy")
 print()
 
 model.compile(
-    optimizer='adam',
+    optimizer=Adam(learning_rate=LEARNING_RATE),
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
@@ -245,16 +250,20 @@ else:
     print()
     
     if not USE_SYNTHETIC:
+        start_time = time.time()
         history = model.fit(
             train_generator,
             epochs=EPOCHS,
             validation_data=validation_generator,
             verbose=1
         )
-        
-        print()
-        print("✅ Training complete!")
-        print()
+    train_time_minutes = (time.time() - start_time) / 60.0
+
+    print(f"\nTraining time (minutes): {train_time_minutes:.2f}")
+    print(f"Final training accuracy: {history.history['accuracy'][-1] * 100:.2f}%")
+    print(f"Final validation accuracy: {history.history['val_accuracy'][-1] * 100:.2f}%")
+    print("✅ Training complete!")
+
     
     # ========================================================================
     # STEP 6: EVALUATE MODEL
@@ -266,6 +275,10 @@ else:
     print(f"\n📊 Test Accuracy: {test_accuracy * 100:.2f}%")
     print(f"📊 Test Loss: {test_loss:.4f}")
     print()
+
+    #save Configuration
+    config_name = "config1_epochs10_bs32_filters3264128_do05_lr0001"
+    model.save("my_best_env_classifier.h5")
     
     # ========================================================================
     # STEP 7: VISUALIZATIONS
